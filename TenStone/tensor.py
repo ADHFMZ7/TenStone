@@ -100,8 +100,19 @@ class Tensor:
 
 
     def backward(self):
-        ...
-        # Topo sort and then call _backward in reverse order
+        topo = []
+        visited = set()
+        def build_topo(v):
+            if v not in visited:
+                visited.add(v)
+                for child in v._prev:
+                    build_topo(child)
+                topo.append(v)
+        build_topo(self)
+
+        self.grad = 1
+        for v in reversed(topo):
+            v._backward()
 
 if __name__ == "__main__":
     A = Tensor([[1, 2, 3], [4, 5, 6]])
@@ -109,9 +120,10 @@ if __name__ == "__main__":
 
     C = A.dot(B)
     D = C.sum()
+    D.backward()
 
-    D._backward()
-    C._backward()
+
 
     print(A.grad)
     print(B.grad)
+    print(C.grad)
