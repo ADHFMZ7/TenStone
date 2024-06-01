@@ -2,28 +2,39 @@
 Implements the Tensor class.
 
 """
-import numpy as np
 
 
 class Tensor:
 
     def __init__(self, shape):
-        # if valid_shape
-        self.data = np.random.randn(*shape)
+        # if !valid_shape(shape):
+            # raise Exception("Invalid shape") 
 
+        def dfs(ix):
+            if ix >= len(shape) - 1:
+                return [0 for _ in range(shape[ix])]
+
+            return [dfs(ix + 1) for _ in range(shape[ix])]
+
+        print(dfs(0))
+
+        self.data = []
+        
 
     @classmethod
     def zeros(cls, shape):
-        ret = cls(shape)
-        ret.data = np.zeros(shape)
-        return ret
+        pass
+        # ret = cls(shape)
+        # ret.data = np.zeros(shape)
+        # return ret
         
 
     @classmethod
     def ones(cls, shape):
-        ret = cls(shape)
-        ret.data = np.ones(shape)
-        return ret
+        pass
+        # ret = cls(shape)
+        # ret.data = np.ones(shape)
+        # return ret
       
     @classmethod
     def from_data(cls):
@@ -31,7 +42,6 @@ class Tensor:
 
 
 if __name__ == "__main__":
-    a = Tensor.ones((10, 10))
-    b = Tensor.zeros(a.data.shape)
-    print(a.data)
-    print(b.data)
+    Tensor([2, 2])
+    # a = Tensor.ones((10, 10))
+    # b = Tensor.zeros(a.data.shape)
