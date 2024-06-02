@@ -9,8 +9,6 @@ TODO:
 """
 import numpy as np
 
-
-
 class Tensor:
 
     def __init__(self, data, _children=()):
@@ -59,7 +57,7 @@ class Tensor:
         ret = Tensor(self.data.sum(keepdims=True).squeeze(), _children=(self, ))
 
         def _backward():
-            self.grad = np.ones_like(self.data)
+            self.grad += np.ones_like(self.data)
 
         ret._backward = _backward
         return ret
@@ -72,15 +70,31 @@ class Tensor:
 
         def _backward():
 
-            print(self.shape, other.shape, ret.shape)
-
-            self.grad = ret.grad @ other.data.T
-            other.grad = self.data.T @ ret.grad
+            self.grad += ret.grad @ other.data.T
+            other.grad += self.data.T @ ret.grad
 
         ret._backward = _backward
         return ret
 
 
+    def __add__(self, other):
+        # Put this in a function later
+        # if isinstance(other, Tensor):
+        #     ...
+        # elif isinstance(other, float) or isinstance(other, int):
+        #     other = Tensor(other)
+        # elif isinstance(other, )
+        # else:
+        #     raise TypeError("Invalid type for tensor operation add")
+            
+        ret = Tensor(self.data + other.data, _children=(self, other)) 
+
+        def _backward():
+            self.grad += ret.grad
+            other.grad += ret.grad
+
+        ret._backward = _backward
+        return ret
 
 # CONSTRUCTORS
 
@@ -117,13 +131,19 @@ class Tensor:
 if __name__ == "__main__":
     A = Tensor([[1, 2, 3], [4, 5, 6]])
     B = Tensor([[1, 2], [3, 4], [5, 6]])
+    
 
-    C = A.dot(B)
-    D = C.sum()
-    D.backward()
+    C = A + A
+    print(C)
+    D = C.dot(B)
+    print(D)
+    E = D.sum()
+    
+    E.backward()
 
-
+    print(E)
 
     print(A.grad)
     print(B.grad)
     print(C.grad)
+    print(D.grad)
