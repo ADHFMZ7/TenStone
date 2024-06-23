@@ -1,9 +1,6 @@
 # TenStone
 
-A Tensor library written in C++
-
-I intend for this to be my capstone project.
-
+A python tensor library for apple silicon
 
 ## Approach
 
