@@ -10,7 +10,6 @@
 
 // For now im making this only work with floats.
 
-
 template <typename T>
 class Tensor {
 
@@ -52,12 +51,25 @@ public:
     return buffer;
   }
 
+Tensor add(Tensor b) {
+
+  if (this->shape != b.shape) {
+    // throw exception
+  }
+  
+  auto c = Tensor(this->shape);
+  std::cout << c.buffer[0] << std::endl; 
+  for (int i = 0; i < this->size; i++) {
+    c.buffer[i] = this->buffer[i] + b.buffer[i];
+  }
+  return c;
+}
+
 
 private:
 
   int size;
   std::vector<T> buffer;
-
 
   std::vector<int> strides; 
   std::vector<int> shape;  

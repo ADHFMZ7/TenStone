@@ -9,15 +9,14 @@ int main() {
 
   auto size = std::vector<int>{10, 10, 5};
 
-  auto ten = Tensor<float>(size);
 
-  auto rand_ten = Tensor<float>::Rand(size);
-  auto buf = rand_ten.buf(); 
+  auto a = Tensor<float>::Rand(size);
+  auto b = Tensor<float>::Rand(size);
 
-  std::cout << buf.size() << std::endl;
+  auto c = a.add(b);
 
-  for (int i = 0; i < buf.size(); i++) {
-    std::cout << buf[i] << std::endl;
+  for (int i = 0; i < a_buf.size(); i++) {
+    std::cout << a_buf[i] << " + " << b_buf[i] << " = " << c_buf[i] << std::endl;
   }
 
 }
