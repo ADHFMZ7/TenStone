@@ -1,39 +1,66 @@
 #ifndef TENSOR_H
 #define TENSOR_H
 
+#include <functional>
+#include <iostream>
+#include <numeric>
 #include <vector>
+#include <ranges>
+#include <cstdlib>
 
+// For now im making this only work with floats.
+
+
+template <typename T>
 class Tensor {
 
 public:
 
-  Tensor() {
+  explicit Tensor(std::vector<int> shape) {
 
-    buffer.reserve(this->size);
+    this->size = std::reduce(shape.begin(), shape.end(), 1, std::multiplies<int>{});
 
+    buffer.resize(this->size);
+
+  }
+
+  // Static factory method to create tensor filled with random data
+  static Tensor Rand(std::vector<int> shape, float min=0, float max=1) {
+
+    // if (std::is_same(T, int)) {
+    //
+    // }
+
+    std::srand(std::time(nullptr));
+
+    auto new_t = Tensor(shape);
+    for (int i = 0; i < new_t.size; i++) {
+      new_t.buffer[i] = (float)rand()/(float)(RAND_MAX/max);
+    }
+    std::cout << new_t.buffer[10];
+    return new_t;
   }
 
   ~Tensor() {
     // Dealocates memory
-
     buffer.clear();
-
   }
 
   Tensor item();
 
+  std::vector<T> buf() const {
+    return buffer;
+  }
 
 
 private:
 
   int size;
-  std::vector<float> buffer;
+  std::vector<T> buffer;
 
 
   std::vector<int> strides; 
-  int shape; 
-  
-
+  std::vector<int> shape;  
   
 };
 

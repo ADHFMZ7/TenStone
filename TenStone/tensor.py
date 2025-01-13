@@ -96,22 +96,37 @@ class Tensor:
         ret._backward = _backward
         return ret
 
+    def __mul__(self, other):
+
+
+        ret = Tensor(self.data * other.data, _children=(self, other))
+
+        def _backward():
+            pass 
+
+        ret._backward = _backward
+        return ret
+
 # CONSTRUCTORS
 
     @classmethod
     def zeros(cls, shape):
-        pass
-        # ret = cls(shape)
-        # ret.data = np.zeros(shape)
-        # return ret
+        ret = cls(np.zeros(shape))
+        return ret
 
     @classmethod
     def ones(cls, shape):
-        pass
-        # ret = cls(shape)
-        # ret.data = np.ones(shape)
-        # return ret
+        ret = cls(np.ones(shape))
+        return ret
 
+    @classmethod
+    def eye(cls, shape):
+        ret = cls.zeros(shape)
+        for i in shape:
+            for j in range(i):
+                ret[i]
+
+        return ret
 
     def backward(self):
         topo = []
@@ -131,14 +146,17 @@ class Tensor:
 if __name__ == "__main__":
     A = Tensor([[1, 2, 3], [4, 5, 6]])
     B = Tensor([[1, 2], [3, 4], [5, 6]])
-    
+
+    C = Tensor.ones((5, 5))
+    print(C)
+    print(C.data)
 
     C = A + A
     print(C)
     D = C.dot(B)
     print(D)
     E = D.sum()
-    
+
     E.backward()
 
     print(E)
@@ -147,3 +165,4 @@ if __name__ == "__main__":
     print(B.grad)
     print(C.grad)
     print(D.grad)
+
