@@ -15,8 +15,8 @@ int main() {
 
   auto c = a.add(b);
 
-  for (int i = 0; i < a_buf.size(); i++) {
-    std::cout << a_buf[i] << " + " << b_buf[i] << " = " << c_buf[i] << std::endl;
+  for (int i = 0; i < a.get_size(); i++) {
+    std::cout << a[i] << " + " << b[i] << " = " << c[i] << std::endl;
   }
 
 }

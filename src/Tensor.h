@@ -45,25 +45,34 @@ public:
     buffer.clear();
   }
 
-  Tensor item();
+  Tensor item() const;
 
-  std::vector<T> buf() const {
-    return buffer;
+  std::vector<T> buf() const {return buffer;}
+  int get_size() const {return size;}
+
+  Tensor add(Tensor b) {
+
+    if (this->shape != b.shape) {
+      // throw exception
+    }
+    
+    auto c = Tensor(this->shape);
+    std::cout << c.buffer[0] << std::endl; 
+    for (int i = 0; i < this->size; i++) {
+      c.buffer[i] = this->buffer[i] + b.buffer[i];
+    }
+    return c;
   }
 
-Tensor add(Tensor b) {
+  T& operator[](int index) {
+    return this->buffer[index];
+  }
 
-  if (this->shape != b.shape) {
-    // throw exception
+  T& operator[](std::vector<int> indices) {
+    if (indices.size() != this->size) {
+      // throw error
+    }
   }
-  
-  auto c = Tensor(this->shape);
-  std::cout << c.buffer[0] << std::endl; 
-  for (int i = 0; i < this->size; i++) {
-    c.buffer[i] = this->buffer[i] + b.buffer[i];
-  }
-  return c;
-}
 
 
 private:
