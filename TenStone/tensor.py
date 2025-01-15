@@ -110,22 +110,27 @@ class Tensor:
 # CONSTRUCTORS
 
     @classmethod
-    def zeros(cls, shape):
-        ret = cls(np.zeros(shape))
+    def zeros(cls, *shape, requires_grad=False):
+        ret = cls(np.zeros(*shape))
         return ret
 
     @classmethod
-    def ones(cls, shape):
-        ret = cls(np.ones(shape))
+    def ones(cls, *shape, requires_grad=False):
+        ret = cls(np.ones(*shape))
         return ret
 
     @classmethod
-    def eye(cls, shape):
-        ret = cls.zeros(shape)
+    def eye(cls, *shape, requires_grad=False):
+        ret = cls.zeros(*shape)
         for i in shape:
             for j in range(i):
                 ret[i]
 
+        return ret
+
+    @classmethod
+    def randn(cls, *shape, requires_grad=False):
+        ret = cls(np.random.randn(*shape))
         return ret
 
     def backward(self):
@@ -142,27 +147,4 @@ class Tensor:
         self.grad = 1
         for v in reversed(topo):
             v._backward()
-
-if __name__ == "__main__":
-    A = Tensor([[1, 2, 3], [4, 5, 6]])
-    B = Tensor([[1, 2], [3, 4], [5, 6]])
-
-    C = Tensor.ones((5, 5))
-    print(C)
-    print(C.data)
-
-    C = A + A
-    print(C)
-    D = C.dot(B)
-    print(D)
-    E = D.sum()
-
-    E.backward()
-
-    print(E)
-
-    print(A.grad)
-    print(B.grad)
-    print(C.grad)
-    print(D.grad)
 
