@@ -18,7 +18,7 @@ num_epochs = 1000
 for epoch in range(num_epochs):
     # Forward pass
     z1 = x @ W1 + b1  # First layer linear transformation
-    a1 = torch.tanh(z1)  # Activation function
+    a1 = z1.tanh()  # Activation function
     z2 = a1 @ W2 + b2  # Second layer linear transformation
     y_pred = z2  # Output (no activation for regression)
 
@@ -29,7 +29,7 @@ for epoch in range(num_epochs):
     loss.backward()
 
     # Gradient descent: manually update weights and biases
-    with torch.no_grad():
+    with Tensor.no_grad():
         W1 -= learning_rate * W1.grad
         b1 -= learning_rate * b1.grad
         W2 -= learning_rate * W2.grad

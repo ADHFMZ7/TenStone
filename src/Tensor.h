@@ -17,7 +17,7 @@ public:
 
   explicit Tensor(std::vector<int> shape) {
 
-    this->size = std::reduce(shape.begin(), shape.end(), 1, std::multiplies<int>{});
+    this->size = std::accumulate(shape.begin(), shape.end(), 1, std::multiplies<int>());
 
     buffer.resize(this->size);
 
