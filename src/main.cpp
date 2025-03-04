@@ -9,14 +9,16 @@ int main() {
 
   auto size = std::vector<int>{10, 10, 5};
 
+  auto A = Tensor<double>::Rand(size, 0, 100);
 
-  auto a = Tensor<float>::Rand(size);
-  auto b = Tensor<float>::Rand(size);
+  auto range = Tensor<double>::Linspace(-1, 1, 15);
 
-  auto c = a.add(b);
-
-  for (int i = 0; i < a.get_size(); i++) {
-    std::cout << a[i] << " + " << b[i] << " = " << c[i] << std::endl;
+  for (int i = 0; i < A.get_size(); i++) {
+    std::cout << A[i] << std::endl;
   }
+
+  auto B = Tensor<double>::Rand(size, 0, 100);
+
+  A + B;
 
 }

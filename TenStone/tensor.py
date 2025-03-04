@@ -29,24 +29,16 @@ class Tensor:
         return self.data.shape
 
     @property
-    def size(self):
-        return self.data.size
+    def size(self): return self.data.size
+    def get(self, indices): return self.data[tuple(indices)]
 
-    def get(self, indices):
-        print(self.data, indices)
-        return self.data[tuple(indices)]
+    def set(self, indices, value): self.data[tuple(indices)] = value
 
-    def set(self, indices, value):
-        self.data[tuple(indices)] = value
+    def __repr__(self): return self.data.__str__()
+    def __getitem__(self, indices): return self.get(indices)
+    # Add slicing later
 
-    def __repr__(self):
-        return self.data.__str__()
-
-    def __getitem__(self, indices):
-        return self.get(indices)
-
-    def __setitem__(self, indices, new_value):
-        self.set(indices, new_value)
+    def __setitem__(self, indices, new_value): self.set(indices, new_value)
 
     
 
@@ -97,12 +89,11 @@ class Tensor:
         return ret
 
     def __mul__(self, other):
-
-
         ret = Tensor(self.data * other.data, _children=(self, other))
 
         def _backward():
-            pass 
+            self.grad += 
+            other.grad += 
 
         ret._backward = _backward
         return ret
